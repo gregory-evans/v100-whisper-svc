@@ -1,0 +1,15 @@
+[Unit]
+Description=faster-whisper STT (large-v3-turbo int8_float16) on GPU0, port 18080
+After=network-online.target nvidia-persistenced.service
+Wants=network-online.target nvidia-persistenced.service
+
+[Service]
+WorkingDirectory=/root/whisper-svc
+Environment=LD_LIBRARY_PATH=/root/whisper-svc/venv/lib/python3.13/site-packages/nvidia/cudnn/lib:/root/whisper-svc/venv/lib/python3.13/site-packages/nvidia/cublas/lib
+TimeoutStartSec=900
+ExecStart=/root/whisper-svc/venv/bin/python /root/whisper-svc/server.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
